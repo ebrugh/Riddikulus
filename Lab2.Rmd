@@ -32,6 +32,21 @@ bmps <- read_csv("C:/R/Data/CBW/BMPreport2016_landbmps.csv")
 ```
 
 
+#names/scores 
+```{r}
+t.names <- tibble(key = c(1, 2, 3), 
+             name = c("Huey", "Dewey", "Louis"))
+```
+```{r}
+t.scores <- tibble(name = c("Louis", "Huey", "Dewey"),
+                   grade = c(99, 45, 33))
+```
+#join
+```{r}
+t.joined <- left_join(t.names, t.scores, by = "name")
+t.joined
+```
+
 
 
 
