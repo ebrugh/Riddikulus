@@ -202,7 +202,9 @@ bmps %>%
 bmps %>%
   filter(Unit == "Acres") %>%
   ggplot(aes(x = Cost, y = TotalAmountCredited)) +
-  geom_point(alpha = 1) +
+  geom_point(alpha = 0.5) +
+  scale_x_log10() +
+  scale_y_log10() +
   labs(
     title = "Cost vs TotalAmountCredited (BMPS)",
     x = "Cost",
