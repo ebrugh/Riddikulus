@@ -163,7 +163,19 @@ c(4, 99, 1) %in% x
 ```{r}
 #Data download
 
+counties <- sf::read_sf("C:/R/Data/CBW/County_Boundaries.shp") %>%
+  sf::st_make_valid()
+
+dams <- sf::read_sf("C:/R/Data/CBW/Dam_or_Other_Blockage_Removed_2012_2017.shp") %>%
+  sf::st_make_valid()
+
+streams <- sf::read_sf("C:/R/Data/CBW/Streams_Opened_by_Dam_Removal_2012_2017.shp") %>%
+  sf::st_make_valid() 
+
+bmps <- read_csv("C:/R/Data/CBW/BMPreport2016_landbmps.csv")
+
 ```
+
 
 #Task 1 ASPATIAL OPS
 ###1-1
