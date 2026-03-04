@@ -180,8 +180,18 @@ bmps <- read_csv("C:/R/Data/CBW/BMPreport2016_landbmps.csv")
 #Task 1 ASPATIAL OPS
 ###1-1
 ```{r}
-#task 1-1
+#summary statistics
 
+bmps %>%
+  group_by(StateAbbreviation) %>%
+  summarise(
+    minCost = min(Cost, na.rm = TRUE),
+    maxCost = max(Cost, na.rm = TRUE),
+    meanCost = mean(Cost, na.rm = TRUE),
+    medianCost = median(Cost, na.rm = TRUE),
+    sdCost = sd(Cost, na.rm = TRUE)
+    
+  )
 
 ```
 
@@ -189,6 +199,15 @@ bmps <- read_csv("C:/R/Data/CBW/BMPreport2016_landbmps.csv")
 ```{r}
 #task 1-2
 
+bmps %>%
+  filter(Unit == "Acres") %>%
+  ggplot(aes(x = Cost, y = TotalAmountCredited)) +
+  geom_point(alpha = 1) +
+  labs(
+    title = "Cost vs TotalAmountCredited (BMPS)",
+    x = "Cost",
+    y = "Total Amount Credited"
+  )
 
 
 ```
