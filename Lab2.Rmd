@@ -11,7 +11,7 @@ library(dplyr)
 library(sf)
 library(tmap)
 ```
-
+#lab examples
 ```{r}
  counties <- sf::read_sf("C:/R/Data/CBW/County_Boundaries.shp") %>%
   sf::st_make_valid()
@@ -28,12 +28,12 @@ streams <- sf::read_sf("C:/R/Data/CBW/Streams_Opened_by_Dam_Removal_2012_2017.sh
 ```
 
 ```{r}
+#management practices to reduce nutrient and sediment pollution 
 bmps <- read_csv("C:/R/Data/CBW/BMPreport2016_landbmps.csv")
 ```
 
-
-#names/scores 
 ```{r}
+#names/scores
 t.names <- tibble(key = c(1, 2, 3), 
              name = c("Huey", "Dewey", "Louis"))
 ```
@@ -41,21 +41,203 @@ t.names <- tibble(key = c(1, 2, 3),
 t.scores <- tibble(name = c("Louis", "Huey", "Dewey"),
                    grade = c(99, 45, 33))
 ```
-#join
+
 ```{r}
+#join
+#left join starts with the left and then matches it in a table on the right
+#can only be used if the tables use the same category name
+
 t.joined <- left_join(t.names, t.scores, by = "name")
 t.joined
+```
+
+```{r}
+t.wonkyNames <- tibble(nombre = c("Dewey", "Louis", "Huey"),
+                       x = rep(999),
+                       favoriteFood = c("banana", "apple", "carrot"))
+```
+
+```{r}
+t.joined2 <- left_join(t.names, t.wonkyNames, by = c("name" = "nombre"))
+t.joined2
+```
+
+```{r}
+#tabular data
+glimpse(bmps)
+```
+
+```{r}
+#munging
+bmps <- bmps %>% mutate(., FIPS.trimmed = stringr::str_sub(GeographyName, 1, 5))
+```
+
+```{r}
+bmps %>% group_by(BMPType) %>% summarise(totalCost = sum(Cost)) %>%
+  ggplot(., aes(x = BMPType, y = totalCost)) +
+  geom_bar(stat = "identity") +
+  theme_minimal()
+
+#didn't work, takes data out
+
+summary(bmps$Cost)
+
+```
+
+```{r}
+#na.rm = T
+
+bmps %>% group_by(BMPType) %>% summarise(totalCost = sum(Cost, na.rm = T)) %>%
+  ggplot(., aes(x = BMPType, y = totalCost)) +
+  geom_bar(stat = "identity") +
+  theme_minimal()
+```
+
+```{r}
+#grouping by two factors at the same time
+#state and sector grouped with sum total cost
+
+twofactors <- bmps %>% group_by(StateAbbreviation, Sector) %>% 
+  summarise(totalCost = sum(Cost))
+
+twofactors
+
+```
+
+```{r}
+#review-simple boxplot
+
+bmps %>% ggplot(., aes(x = StateAbbreviation, y = AmountCredited)) +
+  geom_boxplot(aes(fill = StateAbbreviation))
+
+```
+
+```{r}
+#dramatic subset of data to show skewness
+bmps %>% 
+  dplyr::filter(., AmountCredited > 1 & AmountCredited < 100) %>% 
+  ggplot(., aes(x = StateAbbreviation, y = AmountCredited)) +
+  geom_boxplot(aes(fill = StateAbbreviation))
+```
+
+```{r}
+#facet family of commands 
+#can plot multiple dimensions on one plot
+
+bmps %>% 
+  dplyr::filter(., AmountCredited > 1 & AmountCredited < 100) %>% 
+  ggplot(., aes(x = StateAbbreviation, y = AmountCredited)) +
+  geom_boxplot(aes(fill = StateAbbreviation)) +
+  facet_grid(Sector~.)
+
+```
+
+```{r}
+#log-transform the y-axis as an alternative to removing outliers
+#log of 0 is undefined so it removes a lot of data
+
+bmps %>% ggplot(., aes(x = StateAbbreviation, y = AmountCredited)) +
+  geom_boxplot(aes(fill = StateAbbreviation)) +
+  scale_y_log10() +
+  labs(y = "log10(AmountCredited)")
+
+```
+
+```{r}
+# demonstration vector
+x <- c(1, 2, 3, 4, 5)
+
+# %in% is used to quickly figure out which elements are inside another
+
+7 %in% x # should evaluate False
+2 %in% x # should evaluate True
+
+# can also do it with vectors
+c(4, 99, 1) %in% x
 ```
 
 
 
 
+#MY TASKS
+```{r}
+#Data download
+
+```
+
+#Task 1 ASPATIAL OPS
+###1-1
+```{r}
+#task 1-1
+
+
+```
+
+###1-2
+```{r}
+#task 1-2
 
 
 
+```
+
+###1-3
+```{r}
+#task 1-3
 
 
 
+```
+
+###1-4
+```{r}
+#task 1-4
+
+
+```
+
+###1-5
+```{r}
+#task 1-5
+
+
+```
+
+#Task 2 SPATIAL OPS
+###2-1
+```{r}
+#task 2-1
+
+
+```
+
+###2-2
+```{r}
+#task 2-2
+
+
+```
+
+###2-3
+```{r}
+#task 2-3
+
+
+```
+
+###2-4
+```{r}
+#task 2-4
+
+
+```
+
+###2-5
+```{r}
+#task 2-5
+
+
+```
 
 
 
