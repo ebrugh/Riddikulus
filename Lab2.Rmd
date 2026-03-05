@@ -334,11 +334,14 @@ top3_counties <- streams_county %>%
 ```{r}
 #task 2-3
 
-#FIPS like in lab example
+county_bmp <- counties %>%
+  st_drop_geometry() %>%
+  select(GEOID10, NAME10)
 
-bmps <- bmps %>%
-  mutate(FIPS = stringr::str_sub(GeographyName, 1, 5))
-
+bmps_pt2 <- bmps %>%
+  mutate(FIPS = str_sub(GeographyName, 1, 5)) %>%
+  left_join(county_bmp, by = c("FIPS" = "GEOID10"))
+  
 
 ```
 
