@@ -341,6 +341,12 @@ county_bmp <- counties %>%
 bmps_pt2 <- bmps %>%
   mutate(FIPS = str_sub(GeographyName, 1, 5)) %>%
   left_join(county_bmp, by = c("FIPS" = "GEOID10"))
+
+sum_bmp_cost <- bmps_pt2 %>%
+  group_by(FIPS, NAME10) %>%
+  summarise(totalCost = sum(Cost, na.rm = TRUE), .groups = "drop")
+
+
   
 
 ```
