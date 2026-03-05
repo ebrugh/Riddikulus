@@ -350,7 +350,13 @@ sum_bmp_cost <- bmps_pt2 %>%
 joined_counties <- counties %>%
   left_join(sum_bmp_cost, by = c("GEOID10" = "FIPS"))
 
+#map
+library(tmap)
 
+tm_shape(joined_counties) +
+  tm_polygons("totalCost",
+              palette = "purples",
+              title = "Total BMP Costs")
 
   
 
