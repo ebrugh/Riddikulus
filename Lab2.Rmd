@@ -279,7 +279,25 @@ stream_length <- streams %>%
 
 glimpse(stream_length)
 
+#join
 
+dams_and_stlength <- left_join(dam_count, stream_length, by = "STATE") 
+glimpse(dams_and_stlength)
+
+#average stream per dam
+
+dams_and_stlength <- dams_and_stlength %>%
+  mutate(stream_per_dam = total_stream / num_dams)
+
+#Bob Ross Plot
+
+ggplot(dams_and_stlength, aes(x = STATE, y = stream_per_dam, fill = stream_per_dam, geom_col(fill = "chartreuse"))) + #chartreuse is a big choice
+  labs(
+    title = "Average Stream Length Per Dam Removed",
+    x = "State",
+    y = "Stream Length Reopened per Dam Removed"
+  )
+  
 
 ```
 
@@ -288,8 +306,12 @@ glimpse(stream_length)
 #Task 2 SPATIAL OPS
 ###2-1
 ```{r}
-#task 2-1
+#Five longest streams
 
+streams %>%
+  mutate(length = st_length(geometry)) %>%
+  arrange(desc(length)) %>%
+  slice_max(length, n=5)
 
 ```
 
