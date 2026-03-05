@@ -222,6 +222,8 @@ install.packages("stringr")
 ```{r}
 library(stringr)
 
+#str_detect paired with filter gets the rows that have the word "cover" and keeps the TRUE rows
+
 bmps %>%
   filter(str_detect(BMP, "Cover")) %>%
   ggplot((aes(x = StateAbbreviation, y = TotalAmountCredited))) +
@@ -236,6 +238,7 @@ bmps %>%
 ###1-4
 ```{r}
 #task 1-4
+
 
 
 ```
