@@ -253,10 +253,37 @@ dams %>%
 
 ###1-5
 ```{r}
-#task 1-5
+#creativity is good for the soul
+# step 1 count the dams
+# step 2 calculate the length of the streams
+# step 3 join them together
+# step 4 calculate the average stream per dam
+# step 5 plot it
+
+#count the dams
+
+dam_count <- dams %>%
+  st_drop_geometry() %>%
+  group_by(STATE) %>%
+  summarise(num_dams = n())
+
+glimpse(dam_count)
+
+#stream length
+
+stream_length <- streams %>%
+  mutate(length = as.numeric(st_length(geometry))) %>%
+  st_drop_geometry() %>%
+  group_by(STATE) %>%
+  summarise(total_stream = sum(length))
+
+glimpse(stream_length)
+
 
 
 ```
+
+
 
 #Task 2 SPATIAL OPS
 ###2-1
