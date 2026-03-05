@@ -357,15 +357,15 @@ tm_shape(joined_counties) +
   tm_polygons("totalCost",
               palette = "purples",
               title = "Total BMP Costs")
-
-  
-
 ```
 
 ###2-4
 ```{r}
-#task 2-4
+#parentheses compare data points
+nearest_stream <- st_nearest_feature(dams, streams)
 
+#indexing aka pulling the correct data
+closest_stream <- streams[nearest_stream, ]
 
 ```
 
