@@ -237,9 +237,17 @@ bmps %>%
 
 ###1-4
 ```{r}
-#task 1-4
+#year on x-axis
 
-
+dams %>%
+  filter(YEAR != 0) %>%
+  ggplot(aes(x = YEAR, y = STATE)) +
+  geom_point(alpha = 0.5) +
+  labs(
+    title = "Dam Removals",
+    x = "Year",
+    y = "State"
+  )
 
 ```
 
