@@ -254,50 +254,30 @@ dams %>%
 ###1-5
 ```{r}
 #creativity is good for the soul
-# step 1 count the dams
-# step 2 calculate the length of the streams
-# step 3 join them together
-# step 4 calculate the average stream per dam
-# step 5 plot it
+#backup plan
 
-#count the dams
+#bmp cost
+sum_cost <- bmps %>%
+  group_by(StateAbbreviation) %>%
+  summarise(totalCost = sum(Cost, na.rm = TRUE))
 
-dam_count <- dams %>%
-  st_drop_geometry() %>%
+#dam count
+num_dams <- dams %>%
   group_by(STATE) %>%
+  st_drop_geometry() %>%
   summarise(num_dams = n())
 
-glimpse(dam_count)
+the_join <- left_join(sum_cost, num_dams, by = c("StateAbbreviation" = "STATE"))
 
-#stream length
-
-stream_length <- streams %>%
-  mutate(length = as.numeric(st_length(geometry))) %>%
-  st_drop_geometry() %>%
-  group_by(STATE) %>%
-  summarise(total_stream = sum(length))
-
-glimpse(stream_length)
-
-#join
-
-dams_and_stlength <- left_join(dam_count, stream_length, by = "STATE") 
-glimpse(dams_and_stlength)
-
-#average stream per dam
-
-dams_and_stlength <- dams_and_stlength %>%
-  mutate(stream_per_dam = total_stream / num_dams)
-
-#Bob Ross Plot
-
-ggplot(dams_and_stlength, aes(x = STATE, y = stream_per_dam, fill = stream_per_dam, geom_col(fill = "chartreuse"))) + #chartreuse is a big choice
+#Bob Ross Plot that was not my original Bob Ross Plot plan
+ggplot(the_join, aes(x = totalCost, y = num_dams)) +
+  geom_point(size = 3, color = "chartreuse") +
   labs(
-    title = "Average Stream Length Per Dam Removed",
-    x = "State",
-    y = "Stream Length Reopened per Dam Removed"
+    title = "BMP Cost and Dam Removal",
+    x = "Total BMP Cost",
+    y = "Number of Dam Removals"
   )
-  
+#chartreuse doesn't seem accurate with ggplot
 
 ```
 
@@ -371,8 +351,12 @@ closest_stream <- streams[nearest_stream, ]
 
 ###2-5
 ```{r}
-#task 2-5
+#dams removed
 
+dams %>%
+  st_drop_geometry() %>%
+  group_by(STATE) %>%
+  summarise(totalDams = n())
 
 ```
 
