@@ -223,11 +223,15 @@ install.packages("stringr")
 library(stringr)
 
 bmps %>%
-  filter(str_detect(BMP, "Cover"))
-
+  filter(str_detect(BMP, "Cover")) %>%
+  ggplot((aes(x = StateAbbreviation, y = TotalAmountCredited))) +
+  geom_boxplot(aes(fill = StateAbbreviation)) +
+  labs(
+    title = "TotalAmountCredited for Cover Crops (BMP)",
+    x = "State",
+    y = "TotalAmountCredited"
+  )
 ```
-
-
 
 ###1-4
 ```{r}
