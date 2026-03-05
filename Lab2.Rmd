@@ -332,8 +332,7 @@ top3_counties <- streams_county %>%
 
 ###2-3
 ```{r}
-#task 2-3
-
+#table join
 county_bmp <- counties %>%
   st_drop_geometry() %>%
   select(GEOID10, NAME10)
@@ -342,9 +341,15 @@ bmps_pt2 <- bmps %>%
   mutate(FIPS = str_sub(GeographyName, 1, 5)) %>%
   left_join(county_bmp, by = c("FIPS" = "GEOID10"))
 
+#summary
 sum_bmp_cost <- bmps_pt2 %>%
   group_by(FIPS, NAME10) %>%
   summarise(totalCost = sum(Cost, na.rm = TRUE), .groups = "drop")
+
+#another join
+joined_counties <- counties %>%
+  left_join(sum_bmp_cost, by = c("GEOID10" = "FIPS"))
+
 
 
   
