@@ -322,7 +322,7 @@ streams_county <- st_intersection(streams, counties)
   
 top3_counties <- streams_county %>%
   mutate(str_len = as.numeric(st_length(geometry))) %>%
-  st_drop_geometry() %>%
+  st_drop_geometry() %>% #did not add this in, until try number 5
   group_by(NAME10) %>%
   summarise(total_len = sum(str_len, na.rm = TRUE), .groups = "drop") %>%
   arrange (desc(total_len)) %>%
@@ -333,6 +333,11 @@ top3_counties <- streams_county %>%
 ###2-3
 ```{r}
 #task 2-3
+
+#FIPS like in lab example
+
+bmps <- bmps %>%
+  mutate(FIPS = stringr::str_sub(GeographyName, 1, 5))
 
 
 ```
